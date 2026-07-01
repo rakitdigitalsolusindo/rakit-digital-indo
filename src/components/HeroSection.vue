@@ -21,7 +21,7 @@
         <button class="btn-primary">{{ heroData.buttonText }}</button>
       </div>
       <div class="hero-image" :class="{ 'animate-in': isVisible }">
-        <img :src="heroData.image" alt="Agency Hero Image" />
+        <img :src="getDriveDirectUrl(heroData.image)" alt="Dashboard Preview" />
       </div>
     </div>
   </section>
@@ -30,6 +30,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { heroData } from '../data/hero';
+import { getDriveDirectUrl } from '../utils/gdrive';
 
 const isVisible = ref(false);
 const heroSectionRef = ref(null);
@@ -231,7 +232,7 @@ onUnmounted(() => {
   }
 
   .hero-image {
-    justify-content: center;
+    display: none;
   }
 }
 </style>

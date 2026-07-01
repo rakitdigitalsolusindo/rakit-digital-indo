@@ -22,7 +22,7 @@
         >
           <div class="showcase-card" v-for="item in showcases" :key="item.uniqueKey">
             <div class="card-image">
-              <img :src="item.image" :alt="item.title" loading="lazy" />
+              <img :src="getDriveDirectUrl(item.image)" :alt="item.title" loading="lazy" />
             </div>
             <div class="card-content">
               <span class="category">{{ item.category }}</span>
@@ -56,6 +56,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import { showcaseData } from '../data/showcase';
+import { getDriveDirectUrl } from '../utils/gdrive';
 
 const baseShowcases = showcaseData.items;
 

@@ -4,7 +4,7 @@
       <div class="about-column-left" :class="{ 'animate-left': isVisible }">
         <h2 class="about-title" v-html="aboutData.title.replace('\\n', '<br/>')"></h2>
         <div class="image-left">
-          <img :src="aboutData.imageLeft" alt="Creative Design Agency Team" />
+          <img :src="getDriveDirectUrl(aboutData.imageLeft)" alt="Creative Design Agency Team" />
           <div class="green-badge">
             <span class="star-icon">✦</span>
             <span v-html="aboutData.badgeText.replace('\\n', '<br/>')"></span>
@@ -17,7 +17,7 @@
           <p>{{ aboutData.description }}</p>
         </div>
         <div class="image-right">
-          <img :src="aboutData.imageRight" alt="Creative Team Member" />
+          <img :src="getDriveDirectUrl(aboutData.imageRight)" alt="Creative Team Member" />
           <div class="red-doodle">
              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff4785" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M9 18h6"></path>
@@ -34,6 +34,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { aboutData } from '../data/about';
+import { getDriveDirectUrl } from '../utils/gdrive';
 
 const isVisible = ref(false);
 const sectionRef = ref(null);
