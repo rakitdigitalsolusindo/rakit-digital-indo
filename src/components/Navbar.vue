@@ -1,24 +1,34 @@
 <template>
-  <nav :class="['navbar', { 'navbar--scrolled': isScrolled }]">
+  <nav :class="['navbar', { 'navbar--scrolled': isScrolled, 'navbar--mobile-open': isMobileMenuOpen }]">
     <div class="navbar-container">
-      <div class="navbar-logo">
-        <a href="#"><img src="/logo.svg" alt="Rakit Digital Solusindo" class="nav-logo-img" /></a>
+      <div class="navbar-left">
+        <a href="#" class="navbar-logo">
+          <img src="/logo.svg" alt="Rakit Digital Solusindo" class="nav-logo-img" />
+        </a>
       </div>
-      <!-- Mobile Hamburger Button -->
+
       <button class="hamburger-btn" @click="isMobileMenuOpen = !isMobileMenuOpen" aria-label="Toggle menu">
         <span class="bar" :class="{ 'bar--open': isMobileMenuOpen }"></span>
         <span class="bar" :class="{ 'bar--open': isMobileMenuOpen }"></span>
         <span class="bar" :class="{ 'bar--open': isMobileMenuOpen }"></span>
       </button>
 
-      <div class="nav-links-wrapper" :class="{ 'nav-links-wrapper--open': isMobileMenuOpen }">
+      <div class="navbar-center">
         <ul class="navbar-menu">
-          <li v-for="link in navbarData" :key="link.label">
+          <li v-for="link in navbarData[currentLang]" :key="link.label">
             <a :href="link.href" @click="isMobileMenuOpen = false">{{ link.label }}</a>
           </li>
         </ul>
+      </div>
+
+      <div class="navbar-right">
         <div class="navbar-actions">
-          <a href="#contact" class="btn-secondary" @click="isMobileMenuOpen = false">Contact Us</a>
+          <button class="lang-switch" @click="toggleLanguage">
+            {{ currentLang === 'en' ? 'EN' : 'ID' }}
+          </button>
+          <a href="#contact" class="btn-secondary" @click="isMobileMenuOpen = false">
+            {{ currentLang === 'en' ? 'Contact Us' : 'Hubungi Kami' }}
+          </a>
         </div>
       </div>
     </div>
@@ -28,6 +38,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { navbarData } from '../data/navbar'
+import { currentLang, toggleLanguage } from '../composables/useLanguage'
 
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
@@ -51,30 +62,49 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 24px 0;
-  transition: all 0.3s ease-in-out;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  transition: all 0.3s ease-in-out;
   background-color: transparent;
 }
 
 .navbar--scrolled {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  padding: 16px 24px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
 
 .navbar-container {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.navbar-logo a {
+.navbar-left,
+.navbar-center,
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-center {
+  flex: 1;
+  justify-content: center;
+}
+
+.navbar-right {
+  justify-content: flex-end;
+}
+
+.navbar-logo {
   display: flex;
   align-items: center;
 }
@@ -87,34 +117,69 @@ onUnmounted(() => {
 
 .navbar-menu {
   display: flex;
-  gap: 32px;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-menu li {
+  display: flex;
+  align-items: center;
 }
 
 .navbar-menu a {
   font-weight: 600;
-  color: var(--text-dark);
+  color: var(--text-main);
   transition: color 0.3s ease;
 }
 
 .navbar-menu a:hover {
-  color: var(--primary-accent);
+  color: var(--primary);
 }
 
-.btn-secondary {
-  display: inline-block;
-  text-decoration: none;
-  background-color: transparent;
-  border: 2px solid var(--text-dark);
-  color: var(--text-dark);
-  padding: 10px 24px;
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.lang-switch {
+  background: transparent;
+  border: 1px solid var(--text-main);
+  color: var(--text-main);
+  padding: 0.5rem 0.75rem;
   border-radius: 9999px;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
+.lang-switch:hover {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: transparent;
+  border: 2px solid var(--text-dark);
+  color: var(--text-dark);
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
 .btn-secondary:hover {
-  background-color: var(--text-dark);
+  background-color: var(--text-light);
   color: var(--text-light);
 }
 
@@ -122,6 +187,7 @@ onUnmounted(() => {
   border-color: var(--primary-accent);
   color: var(--primary-accent);
 }
+
 .navbar--scrolled .btn-secondary:hover {
   background-color: var(--primary-accent);
   color: var(--text-light);
@@ -160,41 +226,45 @@ onUnmounted(() => {
   transform: translateY(-8px) rotate(-45deg);
 }
 
-.nav-links-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-}
-
 @media (max-width: 768px) {
   .hamburger-btn {
     display: flex;
   }
 
-  .nav-links-wrapper {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: #ffffff;
-    flex-direction: column;
-    padding: 24px 0;
-    gap: 24px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-    transition: clip-path 0.4s ease-in-out;
-    visibility: hidden;
+  .navbar-center,
+  .navbar-right {
+    display: none;
   }
 
-  .nav-links-wrapper--open {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    visibility: visible;
+  .navbar--mobile-open .navbar-container {
+    flex-wrap: wrap;
+  }
+
+  .navbar--mobile-open .navbar-center {
+    display: flex;
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    padding-top: 0.5rem;
+  }
+
+  .navbar--mobile-open .navbar-right {
+    display: flex;
+    order: 4;
+    width: 100%;
+    justify-content: center;
+    padding-top: 0.5rem;
   }
 
   .navbar-menu {
     flex-direction: column;
+    gap: 1rem;
     align-items: center;
-    gap: 24px;
+  }
+
+  .navbar-actions {
+    flex-direction: column;
+    gap: 0.75rem;
   }
 }
 </style>

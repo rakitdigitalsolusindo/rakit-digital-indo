@@ -9,17 +9,21 @@
     </div>
 
     <div class="services-container">
-      <div class="services-header">
-        <h2>{{ servicesData.title }}</h2>
-        <p>{{ servicesData.description }}</p>
-      </div>
-
-      <div class="services-grid" :class="{ 'animate-in': isVisible }">
-        <div class="service-card" v-for="(service, index) in servicesData.items" :key="service.title" :style="{ zIndex: 10 - index }">
-          <div class="service-icon">{{ service.icon }}</div>
-          <h3>{{ service.title }}</h3>
+      <transition name="fade" mode="out-in">
+        <div :key="currentLang" class="services-header">
+          <h2>{{ servicesData[currentLang].title }}</h2>
+          <p>{{ servicesData[currentLang].description }}</p>
         </div>
-      </div>
+      </transition>
+
+      <transition name="fade" mode="out-in">
+        <div :key="currentLang" class="services-grid" :class="{ 'animate-in': isVisible }">
+          <div class="service-card" v-for="(service, index) in servicesData[currentLang].items" :key="service.title" :style="{ zIndex: 10 - index }">
+            <div class="service-icon" v-html="service.svgIcon"></div>
+            <h3>{{ service.title }}</h3>
+          </div>
+        </div>
+      </transition>
     </div>
   </section>
 </template>
@@ -27,6 +31,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { servicesData } from '../data/services';
+import { currentLang } from '../composables/useLanguage';
 
 const isVisible = ref(false);
 const sectionRef = ref(null);
@@ -163,7 +168,6 @@ onUnmounted(() => {
 }
 
 .service-icon {
-  font-size: 32px;
   background-color: rgba(172, 88, 233, 0.1);
   width: 64px;
   height: 64px;
@@ -172,6 +176,14 @@ onUnmounted(() => {
   align-items: center;
   border-radius: 16px;
   flex-shrink: 0;
+  color: var(--primary-accent, #ac58e9);
+  padding: 16px;
+}
+
+.service-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: currentColor;
 }
 
 .service-card h3 {

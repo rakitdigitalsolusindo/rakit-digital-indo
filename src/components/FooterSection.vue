@@ -3,13 +3,13 @@
     <div class="footer-container">
       <div class="footer-brand">
         <div class="logo-wrapper">
-          <img :src="footerData.logo" alt="Rakit Digital Solusindo Logo" class="footer-logo" />
+          <img :src="footerData[currentLang].logo" alt="Rakit Digital Solusindo Logo" class="footer-logo" />
         </div>
-        <h2>{{ footerData.brandName }}</h2>
-        <p>{{ footerData.description }}</p>
+        <h2>{{ footerData[currentLang].brandName }}</h2>
+        <p>{{ footerData[currentLang].description }}</p>
       </div>
       <div class="footer-links">
-        <div class="link-group" v-for="group in footerData.linkGroups" :key="group.title">
+        <div class="link-group" v-for="group in footerData[currentLang].linkGroups" :key="group.title">
           <h3>{{ group.title }}</h3>
           <ul>
             <li v-for="link in group.links" :key="link.label">
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; {{ currentYear }} {{ footerData.brandName }}. All rights reserved.</p>
+      <p>&copy; {{ currentYear }} {{ footerData[currentLang].brandName }}. {{ footerData[currentLang].copyright }}</p>
     </div>
   </footer>
 </template>
@@ -28,6 +28,7 @@
 <script setup>
 import { computed } from 'vue';
 import { footerData } from '../data/footer';
+import { currentLang } from '../composables/useLanguage';
 
 const currentYear = computed(() => new Date().getFullYear());
 </script>

@@ -13,13 +13,15 @@
     </div>
 
     <div class="hero-container">
-      <div class="hero-content" :class="{ 'animate-in': isVisible }">
-        <h1>
-          {{ heroData.titleStart }} <br /><span class="text-gradient">{{ heroData.titleHighlight }}</span>
-        </h1>
-        <p>{{ heroData.subtitle }}</p>
-        <button class="btn-primary">{{ heroData.buttonText }}</button>
-      </div>
+      <transition name="fade" mode="out-in">
+        <div :key="currentLang" class="hero-content" :class="{ 'animate-in': isVisible }">
+          <h1>
+            <span class="text-gradient">{{ heroData[currentLang].headline }}</span>
+          </h1>
+          <p>{{ heroData[currentLang].subheadline }}</p>
+          <a href="#about" class="btn-primary">{{ heroData[currentLang].buttonText }}</a>
+        </div>
+      </transition>
       <div class="hero-image" :class="{ 'animate-in': isVisible }">
         <img :src="getDriveDirectUrl(heroData.image)" alt="Dashboard Preview" />
       </div>
@@ -31,6 +33,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { heroData } from '../data/hero';
 import { getDriveDirectUrl } from '../utils/gdrive';
+import { currentLang } from '../composables/useLanguage';
 
 const isVisible = ref(false);
 const heroSectionRef = ref(null);
@@ -125,6 +128,7 @@ onUnmounted(() => {
 
 .text-gradient {
   background: linear-gradient(135deg, #ac58e9, #c384fa);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -146,7 +150,7 @@ onUnmounted(() => {
 }
 
 .btn-primary {
-  background: linear-gradient(90deg, #ff6b6b, #ff4785);
+  background: linear-gradient(90deg, #ac58e9, #c384fa);
   color: white;
   border: none;
   padding: 16px 36px;
@@ -154,6 +158,10 @@ onUnmounted(() => {
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   position: relative;
   left: -1000px;
   opacity: 0;
@@ -162,7 +170,7 @@ onUnmounted(() => {
     opacity 4s ease,
     transform 0.3s ease,
     box-shadow 0.3s ease;
-  box-shadow: 0 10px 20px -5px rgba(255, 71, 133, 0.4);
+  box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.35);
 }
 
 .hero-content.animate-in .btn-primary {
@@ -172,7 +180,8 @@ onUnmounted(() => {
 
 .btn-primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 25px -5px rgba(255, 71, 133, 0.5);
+  background: linear-gradient(90deg, #ac58e9, #c384fa);
+  box-shadow: 0 15px 25px -5px rgba(139, 92, 246, 0.45);
 }
 
 .hero-image {

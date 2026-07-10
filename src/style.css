@@ -1,15 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 
+/* Global theme variables */
 :root {
-  --primary-accent: #AC58E9;
-  --bg-light: #FFFFFF;
-  --bg-dark: #000000;
-  --text-dark: #000000;
-  --text-light: #FFFFFF;
-  --text-muted: #64748B;
-  --wave-color: #AC58E9;
+  /* Warna Paten - JANGAN DIUBAH */
+  --primary: #ac58e9;
+  --primary-light: #c384fa;
+
+  /* Tema Terang (Light) */
+  --bg-main: #ffffff;
+  --bg-section: #f8f9fa;
+  --text-main: #1a1a1a;
+  --text-muted: #666666;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+
+  /* Backwards-compatible tokens (map old names to new ones) */
+  --primary-accent: var(--primary);
+  --bg-light: var(--bg-main);
+  --text-dark: var(--text-main);
+  --text-muted-old: var(--text-muted);
+  --wave-color: var(--primary);
 }
 
+/* Tema Gelap (Dark) */
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 80px;
@@ -23,8 +36,8 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-light);
-  color: var(--text-dark);
+  background-color: var(--bg-main);
+  color: var(--text-main);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -36,4 +49,15 @@ a {
 
 ul {
   list-style: none;
+}
+
+/* Efek Fade Animasi Vue */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }

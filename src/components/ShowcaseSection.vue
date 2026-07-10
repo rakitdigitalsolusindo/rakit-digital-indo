@@ -1,11 +1,14 @@
 <template>
   <section class="showcase-section">
-    <div class="showcase-header">
-      <h2>{{ showcaseData.title }}</h2>
-      <p>{{ showcaseData.description }}</p>
-    </div>
+    <transition name="fade" mode="out-in">
+      <div :key="currentLang" class="showcase-header">
+        <h2>{{ localized.title }}</h2>
+        <p>{{ localized.description }}</p>
+      </div>
+    </transition>
     
-    <div class="carousel-wrapper">
+    <transition name="fade" mode="out-in">
+      <div :key="currentLang" class="carousel-wrapper">
       <!-- Navigation Prev -->
       <button class="nav-btn prev-btn" @click="prev" aria-label="Previous">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -39,6 +42,7 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
+    </transition>
 
     <!-- Dots (Navigation) -->
     <div class="carousel-dots">
@@ -54,41 +58,41 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { showcaseData } from '../data/showcase';
+import { currentLang } from '../composables/useLanguage';
 import { getDriveDirectUrl } from '../utils/gdrive';
 
-const baseShowcases = showcaseData.items;
+const localized = computed(() => showcaseData[currentLang.value] ?? { title: '', description: '', items: [] });
 
-const itemsCount = baseShowcases.length;
+const baseShowcases = () => localized.value.items || [];
+
+const itemsCount = computed(() => baseShowcases().length);
 
 // Triplicate the array for seamless infinite scrolling
-const showcases = ref([
-  ...baseShowcases.map((s, i) => ({ ...s, uniqueKey: `set1-${i}` })),
-  ...baseShowcases.map((s, i) => ({ ...s, uniqueKey: `set2-${i}` })),
-  ...baseShowcases.map((s, i) => ({ ...s, uniqueKey: `set3-${i}` }))
-]);
+const showcases = ref([]);
 
-const currentIndex = ref(itemsCount); // Start at the beginning of the middle set
+const currentIndex = ref(0); // will be set after initialization
 const isTransitioning = ref(true);
 const cardWidth = 320;
 const gap = 32;
 
 const activeDot = computed(() => {
-  // Handle negative modulo correctly in JS
-  return ((currentIndex.value % itemsCount) + itemsCount) % itemsCount;
+  const n = itemsCount.value || 1;
+  return ((currentIndex.value % n) + n) % n;
 });
 
 const handleTransitionEnd = () => {
+  const n = itemsCount.value;
   // If we've scrolled into the third set, silently jump back to the middle set
-  if (currentIndex.value >= itemsCount * 2) {
+  if (currentIndex.value >= n * 2) {
     isTransitioning.value = false;
-    currentIndex.value -= itemsCount;
+    currentIndex.value -= n;
   } 
   // If we've scrolled into the first set, silently jump forward to the middle set
-  else if (currentIndex.value <= itemsCount - 1) {
+  else if (currentIndex.value <= n - 1) {
     isTransitioning.value = false;
-    currentIndex.value += itemsCount;
+    currentIndex.value += n;
   }
 };
 
@@ -122,12 +126,29 @@ const prev = () => {
 const goTo = (index) => {
   isTransitioning.value = true;
   // Jump to the specific item in the middle set
-  currentIndex.value = itemsCount + index;
+  currentIndex.value = itemsCount.value + index;
   startAutoplay();
 };
 
+const initShowcases = () => {
+  const base = baseShowcases();
+  const n = base.length;
+  showcases.value = [
+    ...base.map((s, i) => ({ ...s, uniqueKey: `set1-${i}` })),
+    ...base.map((s, i) => ({ ...s, uniqueKey: `set2-${i}` })),
+    ...base.map((s, i) => ({ ...s, uniqueKey: `set3-${i}` }))
+  ];
+  currentIndex.value = n; // start at the middle set
+};
+
 onMounted(() => {
+  initShowcases();
   startAutoplay();
+});
+
+// Re-init when language changes
+watch(currentLang, () => {
+  initShowcases();
 });
 
 onUnmounted(() => {

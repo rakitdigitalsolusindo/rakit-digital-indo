@@ -1,32 +1,29 @@
 <template>
   <section class="about-section" ref="sectionRef">
     <div class="about-container">
-      <div class="about-column-left" :class="{ 'animate-left': isVisible }">
-        <h2 class="about-title" v-html="aboutData.title.replace('\\n', '<br/>')"></h2>
-        <div class="image-left">
-          <img :src="getDriveDirectUrl(aboutData.imageLeft)" alt="Creative Design Agency Team" />
-          <div class="green-badge">
-            <span class="star-icon">✦</span>
-            <span v-html="aboutData.badgeText.replace('\\n', '<br/>')"></span>
+      <transition name="fade" mode="out-in">
+        <div :key="currentLang" class="about-column-left" :class="{ 'animate-left': isVisible }">
+          <h2 class="about-title" v-html="aboutData[currentLang].title.replace('\\n', '<br/>')"></h2>
+          <div class="image-left">
+            <img :src="getDriveDirectUrl(aboutData[currentLang].imageLeft)" alt="Creative Design Agency Team" />
+            <div class="green-badge">
+              <span class="star-icon">✦</span>
+              <span v-html="aboutData[currentLang].badgeText.replace('\\n', '<br/>')"></span>
+            </div>
           </div>
         </div>
-      </div>
+      </transition>
       
-      <div class="about-column-right" :class="{ 'animate-right': isVisible }">
-        <div class="about-description">
-          <p>{{ aboutData.description }}</p>
-        </div>
-        <div class="image-right">
-          <img :src="getDriveDirectUrl(aboutData.imageRight)" alt="Creative Team Member" />
-          <div class="red-doodle">
-             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ff4785" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18h6"></path>
-                <path d="M10 22h4"></path>
-                <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 12 3a4.65 4.65 0 0 0-4.5 8.5c.76.76 1.23 1.52 1.41 2.5"></path>
-             </svg>
+      <transition name="fade" mode="out-in">
+        <div :key="currentLang" class="about-column-right" :class="{ 'animate-right': isVisible }">
+          <div class="about-description">
+            <p>{{ aboutData[currentLang].description }}</p>
+          </div>
+          <div class="image-right">
+            <img :src="getDriveDirectUrl(aboutData[currentLang].imageRight)" alt="Creative Team Member" />
           </div>
         </div>
-      </div>
+      </transition>
     </div>
   </section>
 </template>
@@ -34,6 +31,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import { aboutData } from '../data/about';
+import { currentLang } from '../composables/useLanguage';
 import { getDriveDirectUrl } from '../utils/gdrive';
 
 const isVisible = ref(false);
