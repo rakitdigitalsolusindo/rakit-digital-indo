@@ -172,7 +172,7 @@ onUnmounted(() => {
 .showcase-header h2 {
   font-size: 48px;
   font-weight: 800;
-  color: #000000;
+  color: #ffffff;
   margin-bottom: 16px;
 }
 
