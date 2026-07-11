@@ -1,17 +1,5 @@
 <template>
   <section class="hero-section" ref="heroSectionRef">
-    <!-- Background Curve -->
-    <div class="hero-bg">
-      <svg viewBox="0 0 1440 320" preserveAspectRatio="none" class="wave-svg">
-        <path
-          fill="var(--wave-color)"
-          fill-opacity="1"
-          d="M0,256L48,229.3C96,203,192,149,288,144C384,139,480,181,576,197.3C672,213,768,203,864,181.3C960,160,1056,128,1152,133.3C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-        ></path>
-      </svg>
-      <div class="hero-bottom-fill"></div>
-    </div>
-
     <div class="hero-container">
       <transition name="fade" mode="out-in">
         <div :key="currentLang" class="hero-content" :class="{ 'animate-in': isVisible }">
@@ -71,27 +59,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-.hero-bg {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: -1;
-  display: flex;
-  flex-direction: column;
-}
-
-.wave-svg {
-  width: 100%;
-  height: 250px;
-}
-
-.hero-bottom-fill {
-  background-color: var(--wave-color);
-  height: 150px;
-  width: 100%;
-}
-
 .hero-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -113,7 +80,7 @@ onUnmounted(() => {
   font-size: 48px;
   font-weight: 800;
   line-height: 1.2;
-  color: #000000;
+  color: var(--text-main);
   margin-bottom: 16px;
   position: relative;
   left: -1000px;

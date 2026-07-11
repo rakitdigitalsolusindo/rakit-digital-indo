@@ -1,13 +1,5 @@
 <template>
   <section class="services-section" ref="sectionRef">
-    <!-- Top Wave to transition from purple to white -->
-    <div class="top-wave">
-      <div class="services-top-fill"></div>
-      <svg viewBox="0 0 1440 320" preserveAspectRatio="none" class="wave-svg">
-        <path fill="var(--wave-color)" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,160C960,181,1056,203,1152,192C1248,181,1344,139,1392,117.3L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
-      </svg>
-    </div>
-
     <div class="services-container">
       <transition name="fade" mode="out-in">
         <div :key="currentLang" class="services-header">
@@ -59,31 +51,9 @@ onUnmounted(() => {
 <style scoped>
 .services-section {
   position: relative;
-  background-color: var(--bg-light); /* White background */
+  background-color: transparent;
   padding-bottom: 120px;
-  color: var(--text-dark);
-}
-
-.top-wave {
-  position: absolute;
-  top: -2px; /* Fix 1px gap issue */
-  left: 0;
-  width: 100%;
-  line-height: 0;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.services-top-fill {
-  width: 100%;
-  height: 120px;
-  background-color: var(--wave-color);
-}
-
-.wave-svg {
-  width: 100%;
-  height: 250px;
+  color: var(--text-main);
 }
 
 .services-container {
@@ -121,7 +91,7 @@ onUnmounted(() => {
 }
 
 .service-card {
-  background-color: white;
+  background-color: var(--card-bg);
   padding: 24px 32px;
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -189,7 +159,7 @@ onUnmounted(() => {
 .service-card h3 {
   font-size: 24px;
   font-weight: 700;
-  color: #000000;
+  color: var(--text-main);
   margin: 0;
 }
 

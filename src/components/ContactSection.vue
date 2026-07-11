@@ -38,12 +38,12 @@ import { currentLang } from '../composables/useLanguage';
 
 <style scoped>
 .contact-section {
-  background-color: #ffffff;
-  color: var(--text-dark);
+  background-color: transparent;
+  color: var(--text-main);
   padding: 120px 0;
   text-align: center;
   position: relative;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .contact-container {
@@ -56,7 +56,7 @@ import { currentLang } from '../composables/useLanguage';
   font-size: 56px;
   font-weight: 800;
   margin-bottom: 24px;
-  color: #000000;
+  color: var(--text-main);
 }
 
 .contact-content p {

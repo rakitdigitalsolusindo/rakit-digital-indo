@@ -72,8 +72,8 @@ onUnmounted(() => {
 }
 
 .navbar--scrolled {
-  background-color: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  background-color: rgba(10, 10, 12, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
@@ -168,8 +168,8 @@ onUnmounted(() => {
   justify-content: center;
   text-decoration: none;
   background-color: transparent;
-  border: 2px solid var(--text-dark);
-  color: var(--text-dark);
+  border: 2px solid var(--text-main);
+  color: var(--text-main);
   padding: 0.5rem 1.5rem;
   border-radius: 50px;
   font-weight: 600;
@@ -179,8 +179,8 @@ onUnmounted(() => {
 }
 
 .btn-secondary:hover {
-  background-color: var(--text-light);
-  color: var(--text-light);
+  background-color: var(--text-main);
+  color: #000000;
 }
 
 .navbar--scrolled .btn-secondary {
@@ -190,7 +190,7 @@ onUnmounted(() => {
 
 .navbar--scrolled .btn-secondary:hover {
   background-color: var(--primary-accent);
-  color: var(--text-light);
+  color: #ffffff;
 }
 
 .hamburger-btn {
@@ -209,7 +209,7 @@ onUnmounted(() => {
   display: block;
   width: 100%;
   height: 2px;
-  background-color: var(--text-dark);
+  background-color: var(--text-main);
   transition: all 0.3s ease;
   border-radius: 2px;
 }

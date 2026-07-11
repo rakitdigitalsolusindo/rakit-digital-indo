@@ -59,10 +59,9 @@ onUnmounted(() => {
 
 <style scoped>
 .about-section {
-  background-color: var(--wave-color);
+  background-color: transparent;
   padding: 40px 24px 120px 24px;
-  color: white;
-  margin-top: -2px;
+  color: var(--text-main);
   overflow: hidden; /* Mencegah horizontal scrollbar saat animasi */
 }
 

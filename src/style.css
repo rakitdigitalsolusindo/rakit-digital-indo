@@ -6,13 +6,13 @@
   --primary: #AC58EB;
   --primary-light: #c384fa;
 
-  /* Tema Terang (Light) */
-  --bg-main: #ffffff;
-  --bg-section: #f8f9fa;
-  --text-main: #1a1a1a;
-  --text-muted: #666666;
-  --card-bg: #ffffff;
-  --border-color: #e5e7eb;
+  /* Tema Gelap (Dark) */
+  --bg-main: transparent;
+  --bg-section: rgba(255, 255, 255, 0.03);
+  --text-main: #ffffff;
+  --text-muted: #a1a1aa;
+  --card-bg: rgba(20, 20, 25, 0.6);
+  --border-color: rgba(255, 255, 255, 0.1);
 
   /* Backwards-compatible tokens (map old names to new ones) */
   --primary-accent: var(--primary);
@@ -34,12 +34,28 @@ html {
   box-sizing: border-box;
 }
 
-body {
+body, .custom-background {
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-main);
+  color: #ffffff; /* Changed to white for dark background */
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  
+  margin: 0;
+  width: 100vw;
+  min-height: 100vh; /* Using min-height is safer than height for scrolling content */
+  /* Warna dasar gelap */
+  background-color: #0a0a0c; 
+  /* Tumpukan gradien radial untuk membuat efek pendaran ungu */
+  background-image: 
+    /* Pendaran kiri tengah */
+    radial-gradient(circle at 0% 40%, rgba(55, 35, 75, 0.4) 0%, transparent 40%),
+    /* Pendaran kanan atas */
+    radial-gradient(circle at 100% 0%, rgba(40, 25, 60, 0.3) 0%, transparent 50%),
+    /* Pendaran lebar di bagian bawah */
+    radial-gradient(ellipse at 50% 100%, rgba(65, 45, 90, 0.35) 0%, transparent 60%);
+  
+  /* Opsional: memastikan background tidak terpotong jika konten memanjang */
+  background-attachment: fixed;
 }
 
 a {
