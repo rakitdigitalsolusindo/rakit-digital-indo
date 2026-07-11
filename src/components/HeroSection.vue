@@ -170,7 +170,7 @@ onUnmounted(() => {
     opacity 4s ease,
     transform 0.3s ease,
     box-shadow 0.3s ease;
-  box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.4);
 }
 
 .hero-content.animate-in .btn-primary {
