@@ -159,7 +159,7 @@ onUnmounted(() => {
 <style scoped>
 .showcase-section {
   padding: 10px 0 120px;
-  background-color: var(--bg-light);
+  background-color: transparent;
   overflow: hidden;
 }
 
@@ -172,7 +172,7 @@ onUnmounted(() => {
 .showcase-header h2 {
   font-size: 48px;
   font-weight: 800;
-  color: #000000;
+  color: var(--text-main);
   margin-bottom: 16px;
 }
 
@@ -208,7 +208,7 @@ onUnmounted(() => {
 
 .showcase-card {
   width: 320px;
-  background: white;
+  background: var(--card-bg);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0,0,0,0.05);
@@ -261,7 +261,7 @@ onUnmounted(() => {
 .card-content h3 {
   font-size: 20px;
   font-weight: 700;
-  color: #000000;
+  color: var(--text-main);
   margin-bottom: 12px;
 }
 
@@ -276,7 +276,7 @@ onUnmounted(() => {
 .view-link {
   font-weight: 700;
   font-size: 14px;
-  color: #000000;
+  color: var(--text-main);
   display: inline-flex;
   align-items: center;
   transition: color 0.3s ease;
@@ -294,14 +294,14 @@ onUnmounted(() => {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: white;
-  border: 1px solid rgba(0,0,0,0.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background-color: var(--card-bg);
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  color: #000000;
+  color: var(--text-main);
   transition: all 0.3s ease;
   z-index: 10;
 }
