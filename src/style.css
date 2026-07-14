@@ -41,21 +41,24 @@ body, .custom-background {
   -webkit-font-smoothing: antialiased;
   
   margin: 0;
-  width: 100vw;
-  min-height: 100vh; /* Using min-height is safer than height for scrolling content */
-  /* Warna dasar gelap */
-  background-color: #0a0a0c; 
-  /* Tumpukan gradien radial untuk membuat efek pendaran ungu */
-  background-image: 
-    /* Pendaran kiri tengah */
-    radial-gradient(circle at 0% 40%, rgba(55, 35, 75, 0.4) 0%, transparent 40%),
-    /* Pendaran kanan atas */
-    radial-gradient(circle at 100% 0%, rgba(40, 25, 60, 0.3) 0%, transparent 50%),
-    /* Pendaran lebar di bagian bawah */
-    radial-gradient(ellipse at 50% 100%, rgba(65, 45, 90, 0.35) 0%, transparent 60%);
+  min-height: 100vh;
+  /* Warna dasar yang sangat gelap, hampir hitam murni */
+  background-color: #050505; 
   
-  /* Opsional: memastikan background tidak terpotong jika konten memanjang */
+  /* Tumpukan gradien radial untuk pendaran cahaya */
+  background-image: 
+    /* Pendaran yang lebih terpusat dan terang di tengah bawah */
+    radial-gradient(ellipse at 50% 100%, rgba(70, 40, 95, 0.45) 0%, transparent 55%),
+    
+    /* Pendaran lembut di pertengahan sisi kiri */
+    radial-gradient(circle at 0% 45%, rgba(50, 25, 75, 0.35) 0%, transparent 45%),
+    
+    /* Pendaran sangat halus di sudut kanan atas */
+    radial-gradient(circle at 100% 0%, rgba(40, 20, 60, 0.2) 0%, transparent 40%);
+  
+  /* Menjaga background tetap pada tempatnya saat di-scroll */
   background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 
 a {

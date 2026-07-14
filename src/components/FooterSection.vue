@@ -64,7 +64,6 @@ const currentYear = computed(() => new Date().getFullYear());
   width: auto;
   object-fit: contain;
   display: block;
-  filter: invert(1) brightness(2);
 }
 
 .footer-brand h2 {

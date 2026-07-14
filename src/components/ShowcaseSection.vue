@@ -31,7 +31,13 @@
               <span class="category">{{ item.category }}</span>
               <h3>{{ item.title }}</h3>
               <p>{{ item.description }}</p>
-              <a :href="item.link" class="view-link">View Project &rarr;</a>
+              <a
+                :href="item.title === 'Health Tracking App' || item.title === 'Aplikasi Pelacak Kesehatan' ? '#' : item.link"
+                class="view-link"
+                @click.prevent="(item.title === 'Health Tracking App' || item.title === 'Aplikasi Pelacak Kesehatan') && (activeProject = 'health')"
+              >
+                View Project &rarr;
+              </a>
             </div>
           </div>
         </div>
@@ -54,16 +60,20 @@
         aria-label="Go to slide"
       ></button>
     </div>
+
+    <ProjectDetailHealthApp @close="activeProject = null" v-if="activeProject === 'health'" />
   </section>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import ProjectDetailHealthApp from './ProjectDetailHealthApp.vue';
 import { showcaseData } from '../data/showcase';
 import { currentLang } from '../composables/useLanguage';
 import { getDriveDirectUrl } from '../utils/gdrive';
 
 const localized = computed(() => showcaseData[currentLang.value] ?? { title: '', description: '', items: [] });
+const activeProject = ref(null);
 
 const baseShowcases = () => localized.value.items || [];
 
