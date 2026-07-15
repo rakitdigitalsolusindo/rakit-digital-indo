@@ -70,8 +70,8 @@
   </section>
 </template>
 
-<script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+<script setup>
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import ProjectDetailLightdoc from './ProjectDetaillightdoc.vue';
 import ProjectDetailDesaDigital from './ProjectDetailDesaDigital.vue';
 import ProjectDetailEProperty from './ProjectDetailEProperty.vue';
@@ -83,9 +83,9 @@ import { currentLang } from '../composables/useLanguage';
 import { getDriveDirectUrl } from '../utils/gdrive';
 
 const localized = computed(() => showcaseData[currentLang.value] ?? { title: '', description: '', items: [] });
-const activeProject = ref<string | null>(null);
+const activeProject = ref(null);
 
-const projectKeys: Record<number, string> = {
+const projectKeys = {
   1: 'desa-digital',
   2: 'e-property',
   3: 'lightdoc',
@@ -113,20 +113,19 @@ const activeDot = computed(() => {
 
 const handleTransitionEnd = () => {
   const n = itemsCount.value;
-  if (!n) return;
-
-  // Safety net: keep the active card inside the middle clone at all times.
+  // If we've scrolled into the third set, silently jump back to the middle set
   if (currentIndex.value >= n * 2) {
     isTransitioning.value = false;
-    currentIndex.value = n;
-  }
+    currentIndex.value -= n;
+  } 
+  // If we've scrolled into the first set, silently jump forward to the middle set
   else if (currentIndex.value <= n - 1) {
     isTransitioning.value = false;
-    currentIndex.value = n * 2 - 1;
+    currentIndex.value += n;
   }
 };
 
-let autoplayInterval: ReturnType<typeof setInterval> | null = null;
+let autoplayInterval = null;
 
 const startAutoplay = () => {
   stopAutoplay();
@@ -138,39 +137,18 @@ const startAutoplay = () => {
 const stopAutoplay = () => {
   if (autoplayInterval) {
     clearInterval(autoplayInterval);
-    autoplayInterval = null;
   }
 };
 
 const next = () => {
-  const n = itemsCount.value;
-  if (!n) return;
-
-  // After the last card in the middle clone, jump to its identical first card
-  // without transition. The next tick resumes moving normally from there.
-  if (currentIndex.value >= n * 2 - 1) {
-    isTransitioning.value = false;
-    currentIndex.value = n;
-  } else {
-    isTransitioning.value = true;
-    currentIndex.value++;
-  }
-
+  isTransitioning.value = true;
+  currentIndex.value++;
   startAutoplay();
 };
 
 const prev = () => {
-  const n = itemsCount.value;
-  if (!n) return;
-
-  if (currentIndex.value <= n) {
-    isTransitioning.value = false;
-    currentIndex.value = n * 2 - 1;
-  } else {
-    isTransitioning.value = true;
-    currentIndex.value--;
-  }
-
+  isTransitioning.value = true;
+  currentIndex.value--;
   startAutoplay();
 };
 
@@ -202,7 +180,7 @@ watch(currentLang, () => {
   initShowcases();
 });
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
   stopAutoplay();
 });
 </script>
