@@ -32,9 +32,9 @@
               <h3>{{ item.title }}</h3>
               <p>{{ item.description }}</p>
               <a
-                :href="item.title === 'Health Tracking App' || item.title === 'Aplikasi Pelacak Kesehatan' ? '#' : item.link"
+                :href="item.link"
                 class="view-link"
-                @click.prevent="(item.title === 'Health Tracking App' || item.title === 'Aplikasi Pelacak Kesehatan') && (activeProject = 'health')"
+                @click.prevent="activeProject = projectKeys[item.id] ?? null"
               >
                 View Project &rarr;
               </a>
@@ -61,19 +61,38 @@
       ></button>
     </div>
 
-    <ProjectDetailHealthApp @close="activeProject = null" v-if="activeProject === 'health'" />
+    <ProjectDetailLightdoc v-if="activeProject === 'lightdoc'" @close="activeProject = null" />
+    <ProjectDetailDesaDigital v-if="activeProject === 'desa-digital'" @close="activeProject = null" />
+    <ProjectDetailEProperty v-if="activeProject === 'e-property'" @close="activeProject = null" />
+    <ProjectDetailMasjidDigital v-if="activeProject === 'masjid-digital'" @close="activeProject = null" />
+    <ProjectDetailPadelin v-if="activeProject === 'padelin'" @close="activeProject = null" />
+    <ProjectDetailProyekku v-if="activeProject === 'proyekku'" @close="activeProject = null" />
   </section>
 </template>
 
-<script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
-import ProjectDetailHealthApp from './ProjectDetailHealthApp.vue';
+<script setup lang="ts">
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
+import ProjectDetailLightdoc from './ProjectDetaillightdoc.vue';
+import ProjectDetailDesaDigital from './ProjectDetailDesaDigital.vue';
+import ProjectDetailEProperty from './ProjectDetailEProperty.vue';
+import ProjectDetailMasjidDigital from './ProjectDetailMasjidDigital.vue';
+import ProjectDetailPadelin from './ProjectDetailPadelin.vue';
+import ProjectDetailProyekku from './ProjectDetailProyekku.vue';
 import { showcaseData } from '../data/showcase';
 import { currentLang } from '../composables/useLanguage';
 import { getDriveDirectUrl } from '../utils/gdrive';
 
 const localized = computed(() => showcaseData[currentLang.value] ?? { title: '', description: '', items: [] });
-const activeProject = ref(null);
+const activeProject = ref<string | null>(null);
+
+const projectKeys: Record<number, string> = {
+  1: 'desa-digital',
+  2: 'e-property',
+  3: 'lightdoc',
+  4: 'masjid-digital',
+  5: 'padelin',
+  6: 'proyekku'
+};
 
 const baseShowcases = () => localized.value.items || [];
 
@@ -94,19 +113,20 @@ const activeDot = computed(() => {
 
 const handleTransitionEnd = () => {
   const n = itemsCount.value;
-  // If we've scrolled into the third set, silently jump back to the middle set
+  if (!n) return;
+
+  // Safety net: keep the active card inside the middle clone at all times.
   if (currentIndex.value >= n * 2) {
     isTransitioning.value = false;
-    currentIndex.value -= n;
-  } 
-  // If we've scrolled into the first set, silently jump forward to the middle set
+    currentIndex.value = n;
+  }
   else if (currentIndex.value <= n - 1) {
     isTransitioning.value = false;
-    currentIndex.value += n;
+    currentIndex.value = n * 2 - 1;
   }
 };
 
-let autoplayInterval = null;
+let autoplayInterval: ReturnType<typeof setInterval> | null = null;
 
 const startAutoplay = () => {
   stopAutoplay();
@@ -118,18 +138,39 @@ const startAutoplay = () => {
 const stopAutoplay = () => {
   if (autoplayInterval) {
     clearInterval(autoplayInterval);
+    autoplayInterval = null;
   }
 };
 
 const next = () => {
-  isTransitioning.value = true;
-  currentIndex.value++;
+  const n = itemsCount.value;
+  if (!n) return;
+
+  // After the last card in the middle clone, jump to its identical first card
+  // without transition. The next tick resumes moving normally from there.
+  if (currentIndex.value >= n * 2 - 1) {
+    isTransitioning.value = false;
+    currentIndex.value = n;
+  } else {
+    isTransitioning.value = true;
+    currentIndex.value++;
+  }
+
   startAutoplay();
 };
 
 const prev = () => {
-  isTransitioning.value = true;
-  currentIndex.value--;
+  const n = itemsCount.value;
+  if (!n) return;
+
+  if (currentIndex.value <= n) {
+    isTransitioning.value = false;
+    currentIndex.value = n * 2 - 1;
+  } else {
+    isTransitioning.value = true;
+    currentIndex.value--;
+  }
+
   startAutoplay();
 };
 
@@ -161,7 +202,7 @@ watch(currentLang, () => {
   initShowcases();
 });
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   stopAutoplay();
 });
 </script>

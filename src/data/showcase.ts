@@ -27,8 +27,8 @@ export const showcaseData: ShowcaseData = {
     items: [
       {
         id: 1,
-        image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800',
-        title: 'Fintech Dashboard',
+        image: '/showcase-image/desadigital.png',
+        title: 'Desa Digital',
         category: 'UI/UX Design',
         description: 'A modern, intuitive dashboard for a leading financial technology company.',
         link: '#'
@@ -36,7 +36,7 @@ export const showcaseData: ShowcaseData = {
       {
         id: 2,
         image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800',
-        title: 'E-Commerce Platform',
+        title: 'E-Property',
         category: 'Web Development',
         description: 'High-performance e-commerce solution with seamless checkout experience.',
         link: '#'
@@ -44,7 +44,7 @@ export const showcaseData: ShowcaseData = {
       {
         id: 3,
         image: 'https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&q=80&w=800',
-        title: 'Health Tracking App',
+        title: 'LightDocs',
         category: 'Mobile Apps',
         description: 'Cross-platform mobile application for personal health monitoring.',
         link: '#'
@@ -52,7 +52,7 @@ export const showcaseData: ShowcaseData = {
       {
         id: 4,
         image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800',
-        title: 'Corporate Rebranding',
+        title: 'Masjid Digital',
         category: 'Branding',
         description: 'Complete brand identity redesign for a multinational corporation.',
         link: '#'
@@ -60,10 +60,18 @@ export const showcaseData: ShowcaseData = {
       {
         id: 5,
         image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80&w=800',
-        title: 'SaaS Platform',
+        title: 'PadeLIN',
         category: 'Web Development',
         description: 'Scalable cloud-based software solution for enterprise management.',
         link: '#'
+      },
+      {
+       id: 6,
+        image: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&q=80&w=800',
+        title: 'ProyekKU',
+        category: 'Web Development',
+        description: 'Scalable cloud-based software solution for enterprise management.',
+        link: '#' 
       }
     ]
   },
