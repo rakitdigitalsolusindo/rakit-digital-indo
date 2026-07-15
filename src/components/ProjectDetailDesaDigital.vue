@@ -27,29 +27,29 @@
       <div class="project-info">
         <h2>Desa Digital</h2>
         <p class="project-description">
-          Platform pintar untuk memajukan sistem administrasi dan transparansi informasi di lingkungan desa. Memudahkan warga dalam mengurus surat-menyurat dan memantau program desa secara real-time.
+          {{ currentLang === 'id' ? 'Platform pintar untuk memajukan sistem administrasi dan transparansi informasi di lingkungan desa. Memudahkan warga dalam mengurus surat-menyurat dan memantau program desa secara real-time.' : 'An intelligent platform that advances village administration and information transparency, helping residents process official documents and monitor village programs in real time.' }}
         </p>
 
         <ul class="feature-list">
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Administrasi surat online.
+            {{ currentLang === 'id' ? 'Administrasi surat online.' : 'Online document administration.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Portal berita &amp; pengumuman desa.
+            {{ currentLang === 'id' ? 'Portal berita dan pengumuman desa.' : 'Village news and announcement portal.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Sistem pelaporan/pengaduan warga.
+            {{ currentLang === 'id' ? 'Sistem pelaporan dan pengaduan warga.' : 'Resident reporting and complaint system.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Transparansi dana desa.
+            {{ currentLang === 'id' ? 'Transparansi dana desa.' : 'Village fund transparency.' }}
           </li>
         </ul>
 
-        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">Live Demo</a>
+        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">{{ currentLang === 'id' ? 'Kunjungi Web' : 'Live Demo' }}</a>
       </div>
       </div>
     </div>
@@ -57,7 +57,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { currentLang } from '../composables/useLanguage';
 
 defineEmits(['close']);
 
@@ -70,6 +71,14 @@ const images = [
 ];
 
 const currentImageIndex = ref(0);
+
+onMounted(() => {
+  document.body.style.overflow = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflow = '';
+});
 
 // images is the full array; template computes classes (active/prev/next) directly
 
@@ -321,15 +330,21 @@ const next = () => {
 @media (max-width: 768px) {
   .project-modal-overlay {
     padding: 1rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .project-modal-window {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: auto;
     max-height: 90vh;
-    padding: 4rem 1.5rem 2rem;
+    padding: 3rem 1.5rem;
   }
 
   .modal-content-wrapper {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     height: auto;
   }
@@ -338,6 +353,11 @@ const next = () => {
     height: auto;
     overflow-y: visible;
     padding-right: 0;
+    padding-bottom: 2rem;
+  }
+
+  .project-gallery {
+    min-height: 250px;
   }
 }
 </style>

@@ -27,29 +27,29 @@
       <div class="project-info">
         <h2>Masjid Digital</h2>
         <p class="project-description">
-          Sistem informasi dan manajemen masjid untuk mengelola keuangan umat, jadwal kajian, serta kegiatan sosial agar lebih transparan dan mudah diakses oleh jamaah.
+          {{ currentLang === 'id' ? 'Sistem informasi dan manajemen masjid untuk mengelola keuangan umat, jadwal kajian, serta kegiatan sosial agar lebih transparan dan mudah diakses oleh jamaah.' : 'A mosque information and management system for handling community finances, study schedules, and social activities with greater transparency and accessibility for worshippers.' }}
         </p>
 
         <ul class="feature-list">
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Laporan infaq &amp; kas real-time.
+            {{ currentLang === 'id' ? 'Laporan infaq dan kas real-time.' : 'Real-time donation and cash reports.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Jadwal penceramah &amp; kajian rutin.
+            {{ currentLang === 'id' ? 'Jadwal penceramah dan kajian rutin.' : 'Speaker schedules and regular study sessions.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Pengingat waktu shalat &amp; imsakiyah.
+            {{ currentLang === 'id' ? 'Pengingat waktu shalat dan imsakiyah.' : 'Prayer-time and imsak reminders.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Pendaftaran donasi/qurban online.
+            {{ currentLang === 'id' ? 'Pendaftaran donasi dan qurban online.' : 'Online donation and qurban registration.' }}
           </li>
         </ul>
 
-        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">Live Demo</a>
+        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">{{ currentLang === 'id' ? 'Kunjungi Web' : 'Live Demo' }}</a>
       </div>
       </div>
     </div>
@@ -57,7 +57,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { currentLang } from '../composables/useLanguage';
 
 defineEmits(['close']);
 
@@ -76,6 +77,14 @@ const images = [
 ];
 
 const currentImageIndex = ref(0);
+
+onMounted(() => {
+  document.body.style.overflow = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflow = '';
+});
 
 // images is the full array; template computes classes (active/prev/next) directly
 
@@ -327,15 +336,21 @@ const next = () => {
 @media (max-width: 768px) {
   .project-modal-overlay {
     padding: 1rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .project-modal-window {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: auto;
     max-height: 90vh;
-    padding: 4rem 1.5rem 2rem;
+    padding: 3rem 1.5rem;
   }
 
   .modal-content-wrapper {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     height: auto;
   }
@@ -344,6 +359,11 @@ const next = () => {
     height: auto;
     overflow-y: visible;
     padding-right: 0;
+    padding-bottom: 2rem;
+  }
+
+  .project-gallery {
+    min-height: 250px;
   }
 }
 </style>

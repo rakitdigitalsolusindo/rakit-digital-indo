@@ -27,29 +27,29 @@
       <div class="project-info">
         <h2>E-Property</h2>
         <p class="project-description">
-          Aplikasi jual, beli, dan sewa properti modern yang menghubungkan agen dengan calon pembeli. Dilengkapi dengan pencarian cerdas berbasis lokasi untuk menemukan hunian idaman.
+          {{ currentLang === 'id' ? 'Aplikasi jual, beli, dan sewa properti modern yang menghubungkan agen dengan calon pembeli. Dilengkapi dengan pencarian cerdas berbasis lokasi untuk menemukan hunian idaman.' : 'A modern property marketplace for buying, selling, and renting that connects agents with prospective buyers, featuring intelligent location-based search for the ideal home.' }}
         </p>
 
         <ul class="feature-list">
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Pencarian peta terintegrasi (Maps).
+            {{ currentLang === 'id' ? 'Pencarian peta terintegrasi.' : 'Integrated map search.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Virtual tour 360 derajat.
+            {{ currentLang === 'id' ? 'Tur virtual 360 derajat.' : '360-degree virtual tours.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Kalkulator simulasi KPR.
+            {{ currentLang === 'id' ? 'Kalkulator simulasi KPR.' : 'Mortgage simulation calculator.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Fitur chat langsung dengan agen.
+            {{ currentLang === 'id' ? 'Fitur chat langsung dengan agen.' : 'Direct chat with agents.' }}
           </li>
         </ul>
 
-        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">Live Demo</a>
+        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">{{ currentLang === 'id' ? 'Kunjungi Web' : 'Live Demo' }}</a>
       </div>
       </div>
     </div>
@@ -57,7 +57,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { currentLang } from '../composables/useLanguage';
 
 defineEmits(['close']);
 
@@ -72,6 +73,14 @@ const images = [
 ];
 
 const currentImageIndex = ref(0);
+
+onMounted(() => {
+  document.body.style.overflow = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflow = '';
+});
 
 // images is the full array; template computes classes (active/prev/next) directly
 
@@ -323,15 +332,21 @@ const next = () => {
 @media (max-width: 768px) {
   .project-modal-overlay {
     padding: 1rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .project-modal-window {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: auto;
     max-height: 90vh;
-    padding: 4rem 1.5rem 2rem;
+    padding: 3rem 1.5rem;
   }
 
   .modal-content-wrapper {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     height: auto;
   }
@@ -340,6 +355,11 @@ const next = () => {
     height: auto;
     overflow-y: visible;
     padding-right: 0;
+    padding-bottom: 2rem;
+  }
+
+  .project-gallery {
+    min-height: 250px;
   }
 }
 </style>

@@ -27,29 +27,29 @@
       <div class="project-info">
         <h2>ProyekKu</h2>
         <p class="project-description">
-          Aplikasi manajemen proyek (Project Management) untuk membantu tim berkolaborasi, mengatur tenggat waktu, dan melacak progres tugas dalam satu tempat yang terorganisir.
+          {{ currentLang === 'id' ? 'Aplikasi manajemen proyek untuk membantu tim berkolaborasi, mengatur tenggat waktu, dan melacak progres tugas dalam satu tempat yang terorganisir.' : 'A project management application that helps teams collaborate, manage deadlines, and track task progress in one organized workspace.' }}
         </p>
 
         <ul class="feature-list">
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Papan tugas (Kanban Board) interaktif.
+            {{ currentLang === 'id' ? 'Papan tugas Kanban interaktif.' : 'Interactive Kanban task board.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Time tracking &amp; produktivitas.
+            {{ currentLang === 'id' ? 'Pelacakan waktu dan produktivitas.' : 'Time tracking and productivity insights.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Berbagi file (File sharing) terenkripsi.
+            {{ currentLang === 'id' ? 'Berbagi file terenkripsi.' : 'Encrypted file sharing.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Notifikasi &amp; pengingat otomatis.
+            {{ currentLang === 'id' ? 'Notifikasi dan pengingat otomatis.' : 'Automated notifications and reminders.' }}
           </li>
         </ul>
 
-        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">Live Demo</a>
+        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">{{ currentLang === 'id' ? 'Kunjungi Web' : 'Live Demo' }}</a>
       </div>
       </div>
     </div>
@@ -57,7 +57,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { currentLang } from '../composables/useLanguage';
 
 defineEmits(['close']);
 
@@ -82,6 +83,14 @@ const images = [
 ];
 
 const currentImageIndex = ref(0);
+
+onMounted(() => {
+  document.body.style.overflow = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflow = '';
+});
 
 // images is the full array; template computes classes (active/prev/next) directly
 
@@ -333,15 +342,21 @@ const next = () => {
 @media (max-width: 768px) {
   .project-modal-overlay {
     padding: 1rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .project-modal-window {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: auto;
     max-height: 90vh;
-    padding: 4rem 1.5rem 2rem;
+    padding: 3rem 1.5rem;
   }
 
   .modal-content-wrapper {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     height: auto;
   }
@@ -350,6 +365,11 @@ const next = () => {
     height: auto;
     overflow-y: visible;
     padding-right: 0;
+    padding-bottom: 2rem;
+  }
+
+  .project-gallery {
+    min-height: 250px;
   }
 }
 </style>

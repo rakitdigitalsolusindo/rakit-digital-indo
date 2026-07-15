@@ -25,31 +25,31 @@
       </div>
 
       <div class="project-info">
-        <h2>LightDocs</h2>
+        <h2>Lightdoc</h2>
         <p class="project-description">
-          A cross-platform health tracking application designed to help users monitor daily activity, nutrition, sleep, and wellness goals in one clean, data-driven interface.
+          {{ currentLang === 'id' ? 'Aplikasi lintas platform untuk memantau aktivitas harian, nutrisi, tidur, dan target kebugaran dalam satu antarmuka bersih berbasis data.' : 'A cross-platform health tracking application designed to help users monitor daily activity, nutrition, sleep, and wellness goals in one clean, data-driven interface.' }}
         </p>
 
         <ul class="feature-list">
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Track workouts, calories, and hydration with smart summaries.
+            {{ currentLang === 'id' ? 'Ringkasan cerdas untuk olahraga, kalori, dan hidrasi.' : 'Track workouts, calories, and hydration with smart summaries.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Personalized health goals and progress charts.
+            {{ currentLang === 'id' ? 'Target kesehatan personal dan grafik progres.' : 'Personalized health goals and progress charts.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Real-time insights with reminders and habit streaks.
+            {{ currentLang === 'id' ? 'Insight real-time dengan pengingat dan konsistensi kebiasaan.' : 'Real-time insights with reminders and habit streaks.' }}
           </li>
           <li>
             <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" style="flex-shrink: 0;"><path fill="#ac58e9" d="M9 16.2l-4.2-4.2-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-            Secure sync across devices and health data export.
+            {{ currentLang === 'id' ? 'Sinkronisasi aman lintas perangkat dan ekspor data kesehatan.' : 'Secure sync across devices and health data export.' }}
           </li>
         </ul>
 
-        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">Live Demo</a>
+        <a class="project-demo-btn" href="https://example.com/health-tracking-app" target="_blank" rel="noreferrer">{{ currentLang === 'id' ? 'Kunjungi Web' : 'Live Demo' }}</a>
       </div>
       </div>
     </div>
@@ -57,7 +57,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { currentLang } from '../composables/useLanguage';
 
 defineEmits(['close']);
 
@@ -70,6 +71,14 @@ const images = [
 ];
 
 const currentImageIndex = ref(0);
+
+onMounted(() => {
+  document.body.style.overflow = 'hidden';
+});
+
+onUnmounted(() => {
+  document.body.style.overflow = '';
+});
 
 // images is the full array; template computes classes (active/prev/next) directly
 
@@ -321,15 +330,21 @@ const next = () => {
 @media (max-width: 768px) {
   .project-modal-overlay {
     padding: 1rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .project-modal-window {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    height: auto;
     max-height: 90vh;
-    padding: 4rem 1.5rem 2rem;
+    padding: 3rem 1.5rem;
   }
 
   .modal-content-wrapper {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     height: auto;
   }
@@ -338,6 +353,11 @@ const next = () => {
     height: auto;
     overflow-y: visible;
     padding-right: 0;
+    padding-bottom: 2rem;
+  }
+
+  .project-gallery {
+    min-height: 250px;
   }
 }
 </style>
