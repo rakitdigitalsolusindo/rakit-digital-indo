@@ -383,7 +383,15 @@ onUnmounted(() => {
     padding: 0 16px;
   }
   .nav-btn {
-    display: none;
+    display: flex !important;
+    transform: translateY(-50%) scale(0.85);
+    z-index: 20;
+  }
+  .prev-btn {
+    left: 5px;
+  }
+  .next-btn {
+    right: 5px;
   }
   .showcase-header h2 {
     font-size: 36px;
